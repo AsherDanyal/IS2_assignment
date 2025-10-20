@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Encryption Tool</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Text Encryption Tool</h1>
+
+    <textarea id="plainText" placeholder="Enter plain text here..."></textarea>
+
+    <select id="algorithm">
+      <option value="">-- Select Encryption Algorithm --</option>
+      <option value="transposition">Transposition Cipher</option>
+      <option value="polyalphabetic">Polyalphabetic Cipher</option>
+      <option value="vigenere">Vigenère Cipher</option>
+    </select>
+
+    <input type="text" id="keyInput" placeholder="Enter key (if required)" />
+
+    <div class="buttons">
+      <button id="encryptBtn">Encrypt</button>
+      <button id="decryptBtn">Decrypt</button>
+    </div>
+
+    <textarea id="cipherText" readonly placeholder="Result will appear here..."></textarea>
+    <button id="copyBtn">Copy Text</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
