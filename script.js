@@ -45,37 +45,38 @@ function transpositionDecrypt(cipher, key) {
   return grid.flat().join('');
 }
 
-// ---------- Polyalphabetic Cipher ----------
-function polyalphabeticEncrypt(text, key) {
-  key = key.toUpperCase();
-  let result = '';
+// ---------- Caesar Cipher ----------
+
+// Encrypt function
+function caesarEncrypt(text, shift) {
+  // Ensure shift is a number
+  shift = parseInt(shift, 10);
+
+  let result = "";
+
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
-    if (/[A-Za-z]/.test(c)) {
-      const shift = key.charCodeAt(i % key.length) - 65;
-      const base = c === c.toUpperCase() ? 65 : 97;
-      result += String.fromCharCode(((c.charCodeAt(0) - base + shift) % 26) + base);
-    } else {
+
+    if (/[A-Z]/.test(c)) {
+      // Uppercase letter (A=65)
+      result += String.fromCharCode((c.charCodeAt(0) - 65 + shift) % 26 + 65);
+    } 
+    else if (/[a-z]/.test(c)) {
+      // Lowercase letter (a=97)
+      result += String.fromCharCode((c.charCodeAt(0) - 97 + shift) % 26 + 97);
+    } 
+    else {
+      // Non-letters (spaces, punctuation) stay the same
       result += c;
     }
   }
+
   return result;
 }
 
-function polyalphabeticDecrypt(cipher, key) {
-  key = key.toUpperCase();
-  let result = '';
-  for (let i = 0; i < cipher.length; i++) {
-    const c = cipher[i];
-    if (/[A-Za-z]/.test(c)) {
-      const shift = key.charCodeAt(i % key.length) - 65;
-      const base = c === c.toUpperCase() ? 65 : 97;
-      result += String.fromCharCode(((c.charCodeAt(0) - base - shift + 26) % 26) + base);
-    } else {
-      result += c;
-    }
-  }
-  return result;
+// Decrypt function
+function caesarDecrypt(cipher, shift) {
+  return caesarEncrypt(cipher, (26 - shift) % 26);
 }
 
 // ---------- Vigenère Cipher ----------
@@ -127,7 +128,7 @@ document.getElementById("encryptBtn").addEventListener("click", () => {
 
   let result = "";
   if (algo === "transposition") result = transpositionEncrypt(text, key || "KEY");
-  else if (algo === "polyalphabetic") result = polyalphabeticEncrypt(text, key);
+  else if (algo === "Ceaser") result = caesarEncrypt(text, key);
   else if (algo === "vigenere") result = vigenereEncrypt(text, key);
 
   document.getElementById("cipherText").value = result;
@@ -144,7 +145,7 @@ document.getElementById("decryptBtn").addEventListener("click", () => {
 
   let result = "";
   if (algo === "transposition") result = transpositionDecrypt(text, key || "KEY");
-  else if (algo === "polyalphabetic") result = polyalphabeticDecrypt(text, key);
+  else if (algo === "Ceaser") result = caesarDecrypt(text, key);
   else if (algo === "vigenere") result = vigenereDecrypt(text, key);
 
   document.getElementById("cipherText").value = result;
